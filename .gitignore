@@ -1,0 +1,107 @@
+# ========================================
+# Python
+# ========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+downloads/
+develop-eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+
+# ========================================
+# Virtual Environments
+# ========================================
+venv/
+env/
+ENV/
+.venv/
+blogenv/
+
+# ========================================
+# Django
+# ========================================
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Environment variables
+.env
+.env.*
+local_settings.py
+
+# ========================================
+# Django Migrations (Optional)
+# Keep __init__.py but ignore migration files.
+# Remove this section if you want migrations tracked.
+# ========================================
+
+# ========================================
+# Static Collection
+# ========================================
+staticfiles/
+
+# ========================================
+# VS Code
+# ========================================
+.vscode/
+
+# ========================================
+# PyCharm
+# ========================================
+.idea/
+
+# ========================================
+# Windows
+# ========================================
+Thumbs.db
+Desktop.ini
+
+# ========================================
+# macOS
+# ========================================
+.DS_Store
+
+# ========================================
+# Testing & Coverage
+# ========================================
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# ========================================
+# Type Checking
+# ========================================
+.mypy_cache/
+.pyre/
+.pytype/
+
+# ========================================
+# Jupyter Notebooks
+# ========================================
+.ipynb_checkpoints/
+
+# ========================================
+# Miscellaneous
+# ========================================
+*.bak
+*.swp
+*.tmp
+*.temp
