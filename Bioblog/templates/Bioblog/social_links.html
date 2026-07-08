@@ -1,0 +1,20 @@
+
+  <div class="p-3">
+
+        <ul class="list-unstyled">
+                        {% for link in links %}
+                            <li>
+                                <a href="{{ link.link }}" target="_blank">
+                                    {% if link.social_media_image %}
+                                        <img src="{{ link.social_media_image.url }}"
+                                             alt="{{ link.social_media_name }}"
+                                             style="width:24px; height:24px; margin-right:8px;">
+                                    {% endif %}
+                                    {{ link.social_media_name }}
+                                </a>
+                            </li>
+                        {% empty %}
+                            <li>No social links available yet.</li>
+                        {% endfor %}
+                    </ul>
+  </div>

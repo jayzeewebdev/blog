@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Posts in {{ category }} category</h1>
+<div class="row">
+  {% if blogs %}
+    {% for blog in blogs %}
+      <div class="col-md-6">
+        <div class="card mb-3">
+          <div class="card-body">
+            <a href="{% url 'post_detail_page' blog.slug %}" class="text-dark">
+                <h3>{{ blog.title }}</h3>
+                <small class="text-muted">{{ blog.created_at|timesince }} ago, {{ blog.author }}</small>
+                <p>{{ blog.short_description }}</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No posts in this category yet.</p>
+  {% endif %}
+</div>
+{% endblock %}
