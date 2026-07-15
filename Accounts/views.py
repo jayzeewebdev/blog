@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as auth_login
+from django.contrib import auth
 
 from Accounts.forms import RegisterForm
 
@@ -23,9 +24,13 @@ def login_view(request):  # Renamed from 'login' to prevent conflicts
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            user = form.get_user()
-            auth_login(request, user)
-            return redirect('blog_homepage')  # Use URL name, not the HTML filename
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+               auth.login(request, user)
+               return redirect('dashboard')  # Use URL name, not the HTML filename
     else:
         form = AuthenticationForm()
 
@@ -34,3 +39,6 @@ def login_view(request):  # Renamed from 'login' to prevent conflicts
     }
     return render(request, 'Accounts/login_view.html', context)
   
+def logout(request):
+   auth.logout(request)
+   return redirect('blog_homepage')
