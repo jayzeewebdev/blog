@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+  {% include 'sidebar.html' %}
+  
+  {% if perms.auth.view_user %}
+  <div class="col-md-6">
+
+    <form method="POST" action="{% url 'delete_user' user.id %}">
+
+      {% csrf_token %}
+      <p>Are you sure you wanna delete <b>'{{ user.username }}'</b></p>
+
+      <button class="btn btn-danger">Delete</button>
+
+      <a href="{% url 'users' %}" class="btn btn-warning">Cancel</a>
+
+    </form>
+
+  </div>
+  {% else %}
+  <h5>YOU DON'T HAVE PERMISSIONS TO THIS PAGE!</h5>
+  {% endif %}
+</div>
+
+{% endblock %}

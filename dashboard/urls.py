@@ -14,4 +14,13 @@ urlpatterns = [
   path('edit_blog/<int:pk>/', views.edit_blog, name='edit_blog'),
   path('delete_blog/<int:pk>/', views.delete_blog, name='delete_blog'),
 
+  # THE LOGOUT PATH DONE HERE
+  #path('logout/', views.logout, name='logout'),
+
+  # USERS PATH DONE HERE
+  path('users/', views.users, name='users'),
+  path('add_user/', views.add_user, name='add_user'),
+  path('edit_user/<int:pk>/', views.edit_user, name='edit_user'),
+  path('delete_user/<int:pk>/', views.delete_user, name='delete_user'),
+
 ]

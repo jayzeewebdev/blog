@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from blog.models import Blog, Category
-from dashboard.forms import BlogsForm, CategoryForm
+from .forms import AddUserForm, BlogsForm, CategoryForm, EditUserForm
 
 
 # Create your views here.
@@ -99,7 +100,7 @@ def edit_blog(request, pk):
       return redirect('blogs_list')
     
   else:
-   form = BlogsForm(instance=blogs)
+   form = BlogsForm(instance=blog)
 
   context = {
     'form': form,
@@ -118,3 +119,56 @@ def delete_blog(request, pk):
     'blog': blog,
   }
   return render(request, 'dashboard/delete_blog.html', context)
+
+#def logout(request):
+  return render(request, 'dashboard/logout.html')
+
+def users(request):
+  users = User.objects.all()
+
+  context = {
+    'users': users,
+  }
+  return render(request, 'dashboard/users.html', context)
+
+# ADDING USERS TO THE BACKEND
+def add_user(request):
+  if request.method == 'POST':
+    form = AddUserForm(request.POST)
+    if form.is_valid():
+      form.save()
+      return redirect('users')
+  else:
+    form = AddUserForm()
+
+  context = {
+    'form': form,
+  }
+  return render(request, 'dashboard/add_user.html', context)
+
+def edit_user(request, pk):
+  user = get_object_or_404(User, pk=pk)
+  if request.method == 'POST':
+    form = EditUserForm(request.POST, instance=user,)
+    if form.is_valid():
+      form.save()
+      return redirect('users')
+    
+  else:
+   form = EditUserForm(instance=user)
+
+  context = {
+    'form': form,
+  }
+  return render(request, 'dashboard/edit_user.html', context)
+
+def delete_user(request, pk):
+  user = get_object_or_404(User, pk=pk)
+  if request.method == 'POST':
+    user.delete()
+    return redirect('users')
+
+  context = {
+    'user': user,
+  }
+  return render(request, 'dashboard/delete_user.html', context)

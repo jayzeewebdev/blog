@@ -15,6 +15,8 @@ def register(request):
     form = RegisterForm(request.POST)
     if form.is_valid():
      form.save()
+     return redirect('login_view')
+    
   context = {
     'form': form,
   }
