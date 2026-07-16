@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="row">
+
+   {% include 'sidebar.html' %}
+   <div class="col-md-9">
+      <h3>Delete Blog</h3>
+      <form method="POST" action="{% url 'delete_blog' blog.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>Are you sure you want to delete <b>{{ blog.title }}</b>?</p>
+       
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'blogs_list' %}" class="btn btn-warning">Cancel</a>
+      </form>
+   </div>
+
+</div>
+{% endblock %}

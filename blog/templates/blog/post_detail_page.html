@@ -37,7 +37,10 @@
                     <div class="fs-5 lh-lg">
                         {{ post.blog_body|linebreaks }}
                     </div>
-
+                    <a href="{% url 'delete_blog' post.id %}">
+                        <button class="btn btn-danger">Delete</button>
+                    </a>
+                    
                 </div>
 
             </article>
