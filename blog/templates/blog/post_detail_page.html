@@ -40,9 +40,44 @@
                     <a href="{% url 'delete_blog' post.id %}">
                         <button class="btn btn-danger">Delete</button>
                     </a>
+
+                    <div class="container mt-2">
+                          <h4>Comments ({{ comment_count }})</h4>
+                        {% if comments %}
+                            {% for comment in comments %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="card-text">{{ comment }}</p>
+                                    <span>
+                                        <small>By {{ comment.user }}</small>
+                                        <small> | {{ comment.created_at| timesince }}</small>
+                                    </span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                            <h6>NO COMMENTS YET!</h6>
+                        {% endif %}
+                        <br>
+                        {% if user.is_authenticated %}
+                        <div class="form-group">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <textarea name="comment" 
+                                   class="form-control" placeholder="write your comment"></textarea>
+                                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
+                                </div>
+
+                            </form>
+                        </div>
+                        {% else %}
+                        <p>Please <a href="{% url 'login_view' %}"><span>Login</span></a> to comment</p>
+                        {% endif %}
+                    </div>
                     
                 </div>
-
+              
             </article>
 
         </div>

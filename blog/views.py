@@ -1,10 +1,10 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
 
 
 from Bioblog.models import About, Social_media_links
-from blog.models import Blog, Category
+from blog.models import Blog, Category, Comment
 
 # Create your views here.
 def homepage(request):
@@ -33,8 +33,21 @@ def posts_by_category(request, pk):
 
 def post_detail_page(request, slug):
    post = get_object_or_404(Blog, slug=slug)
+   if request.method == 'POST':
+      comment = Comment()
+      comment.user = request.user
+      comment.blog = post
+      comment.comment = request.POST['comment']
+      comment.save()
+      return HttpResponseRedirect(request.path_info)
+
+   comments = Comment.objects.filter(blog=post)
+   comment_count = comments.count()
+
    context = {
       'post': post,
+      'comments': comments,
+      'comment_count': comment_count,
    }
    return render(request, 'blog/post_detail_page.html', context)
 
