@@ -26,5 +26,7 @@ urlpatterns = [
 
     #DASHBOARD CONFIGURATIONS DONE HERE
     path('dashboard/', include('dashboard.urls')),
+
+    #COMMENT SECTION DONE HERE
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

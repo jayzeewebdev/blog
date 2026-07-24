@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'Bioblog',
     'Accounts',
     'dashboard',
+    
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

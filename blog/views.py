@@ -1,10 +1,14 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 
 from Bioblog.models import About, Social_media_links
-from blog.models import Blog, Category, Comment
+from blog.forms import CommentForm
+from blog.models import Blog, Category
+from blog.models import Comment
+
 
 # Create your views here.
 def homepage(request):
@@ -33,21 +37,11 @@ def posts_by_category(request, pk):
 
 def post_detail_page(request, slug):
    post = get_object_or_404(Blog, slug=slug)
-   if request.method == 'POST':
-      comment = Comment()
-      comment.user = request.user
-      comment.blog = post
-      comment.comment = request.POST['comment']
-      comment.save()
-      return HttpResponseRedirect(request.path_info)
-
-   comments = Comment.objects.filter(blog=post)
-   comment_count = comments.count()
+   comments = post.comment_set.all()
 
    context = {
       'post': post,
       'comments': comments,
-      'comment_count': comment_count,
    }
    return render(request, 'blog/post_detail_page.html', context)
 
@@ -60,3 +54,61 @@ def search(request):
       'keyword': keyword,
    }
    return render(request, 'search.html', context)
+
+@login_required
+def add_comment(request, slug):
+    post = get_object_or_404(Blog, slug=slug)
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.blog = post
+            comment.save()
+            return redirect('post_detail_page', slug=post.slug)
+    else:
+        form = CommentForm()
+
+    context = {
+        'form': form,
+        'post': post,
+    }
+    return render(request, 'blog/add_comment.html', context)
+
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+from .models import Comment       # <-- Make sure you import the Comment MODEL
+from .forms import CommentForm    # <-- Make sure you import the Comment FORM
+
+@login_required
+def edit_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if request.method == "POST":
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail_page', slug=comment.blog.slug)
+    else:
+        form = CommentForm(instance=comment)
+
+    context = {
+        'comment': comment,
+        'form': form,
+    }
+    return render(request, 'blog/edit_comment.html', context)
+
+def delete_comment(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+
+    if request.method == 'POST':
+        blog_slug = comment.blog.slug   # grab this before deleting
+        comment.delete()
+        return redirect('post_detail_page', slug=blog_slug)
+
+    context = {
+        'comment': comment,
+    }
+    return render(request, 'blog/delete_comment.html', context)

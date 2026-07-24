@@ -41,39 +41,33 @@
                         <button class="btn btn-danger">Delete</button>
                     </a>
 
-                    <div class="container mt-2">
-                          <h4>Comments ({{ comment_count }})</h4>
-                        {% if comments %}
-                            {% for comment in comments %}
-                            <div class="card">
-                                <div class="card-body">
-                                    <p class="card-text">{{ comment }}</p>
-                                    <span>
-                                        <small>By {{ comment.user }}</small>
-                                        <small> | {{ comment.created_at| timesince }}</small>
-                                    </span>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            {% else %}
-                            <h6>NO COMMENTS YET!</h6>
-                        {% endif %}
-                        <br>
-                        {% if user.is_authenticated %}
-                        <div class="form-group">
-                            <form action="" method="POST">
-                                {% csrf_token %}
-                                <div class="form-group">
-                                    <textarea name="comment" 
-                                   class="form-control" placeholder="write your comment"></textarea>
-                                    <input type="submit" value="Submit" class="btn btn-primary mt-2">
-                                </div>
+                    <a href="{% url 'add_comment' post.slug %}">
+                        <button class="btn btn-warning">Add Comment</button>
+                    </a>
 
-                            </form>
+                     <a href="{% url 'edit_comment' post.pk %}">
+                        <button class="btn btn-warning">Edit Comment</button>
+                    </a>
+
+                       <a href="{% url 'delete_comment' post.pk %}">
+                        <button class="btn btn-warning">Delete Comment</button>
+                    </a>
+
+
+                    <div class="container mt-2">
+                         {% for comment in comments %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                            <p>{{ comment.comment }}</p>
+                            <small class="text-muted">
+                                By {{ comment.user }}
+                                • {{ comment.created_at|timesince }} ago
+                            </small>
+                            </div>
                         </div>
-                        {% else %}
-                        <p>Please <a href="{% url 'login_view' %}"><span>Login</span></a> to comment</p>
-                        {% endif %}
+                        {% empty %}
+                        <p><b>NO COMMENT/S YET!</b></p>
+                         {% endfor %}
                     </div>
                     
                 </div>
