@@ -37,22 +37,29 @@
                     <div class="fs-5 lh-lg">
                         {{ post.blog_body|linebreaks }}
                     </div>
+                         {% if user.is_authenticated %}
                     <a href="{% url 'delete_blog' post.id %}">
                         <button class="btn btn-danger">Delete</button>
                     </a>
+                    {% endif %}
 
+                     {% if user.is_authenticated %}
                     <a href="{% url 'add_comment' post.slug %}">
                         <button class="btn btn-warning">Add Comment</button>
                     </a>
+                    {% endif %}
 
+                        {% if user.is_authenticate %}
                      <a href="{% url 'edit_comment' post.pk %}">
                         <button class="btn btn-warning">Edit Comment</button>
                     </a>
-
+                    {% endif %}
+                    
+                    {% if user.is_authenticated %}
                        <a href="{% url 'delete_comment' post.pk %}">
                         <button class="btn btn-warning">Delete Comment</button>
                     </a>
-
+                    {% endif %}
 
                     <div class="container mt-2">
                          {% for comment in comments %}
