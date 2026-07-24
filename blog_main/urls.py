@@ -1,5 +1,5 @@
 """
-URL configuration for todo_main project.
+URL configuration for blog_main project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -20,15 +20,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
-    path('TheREALpapas100%/', admin.site.urls),   # your REAL admin, renamed
-
+    path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('', include('Accounts.urls')),
 
-    #DASHBOARD CONFIGURATIONS DONE HERE
     path('dashboard/', include('dashboard.urls')),
 
-    #COMMENT SECTION DONE HERE
-    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
